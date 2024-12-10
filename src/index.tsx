@@ -47,7 +47,7 @@ app.get('/', async (c) => {
     const zoneName = z.split(" ")[0]
     const zoneData = data.filter(d => d[0].endsWith(zoneName))
     return <div>
-      <h2>{zoneName} <form action="/local_zone_remove">
+      <h2>{zoneName} <form method="post" action="/local_zone_remove">
         <input type="hidden" name="name" value={zoneName} />
         <button type="submit">x delete</button>
       </form></h2>
@@ -58,7 +58,7 @@ app.get('/', async (c) => {
             <td>{d[1]}</td>
             <td>{d[3]}</td>
             <td>{d[4]}</td>
-            <td><form action="/local_data_remove">
+            <td><form method="post" action="/local_data_remove">
               <input type="hidden" name="name" value={d[0]} />
               <button type="submit">x delete</button>
             </form></td>
