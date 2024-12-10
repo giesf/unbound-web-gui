@@ -21,7 +21,13 @@ function wrap(a: JSX.Element) {
           a {
               color: rgba(255, 255, 245, .86);
           }
-
+          button {
+            background-color: rgba(255, 255, 245, .86);
+            border-radius: 0;
+            border: 1pt rgba(255, 255, 245, .86) solid;
+            color: #1e1e20;
+            font-family: monospace;
+          }
         `}}>
 
       </style>
