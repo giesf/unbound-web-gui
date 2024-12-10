@@ -15,16 +15,26 @@ app.get('/', async (c) => {
 
 
   const r = transparentZones.map(z => {
-
-    return `
-\t${z}
-\t${data.filter(d => d[0].endsWith(z.split(" ")[0])).map(d => d.join("\t")).join("\n\t")}
-    `
-  }).join("\n")
+    const zoneName = z.split(" ")[0]
+    const zoneData = data.filter(d => d[0].endsWith(zoneName))
+    return <div>
+      <h2>{zoneName}</h2>
+      <table>
+        <tbody>
+          {zoneData.map(d => <tr>
+            <td>{d[0]}</td>
+            <td>{d[1]}</td>
+            <td>{d[2]}</td>
+            <td><a href="/"></a></td>
+          </tr>)}
+        </tbody>
+      </table>
+    </div>
+  });
 
   return c.html(<>
     <a href="/local_data">+ add</a>
-    <pre>{r}</pre>
+    {r}
   </>)
 })
 app.get('/local_data', async (c) => {
