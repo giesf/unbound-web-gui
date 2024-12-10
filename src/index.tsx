@@ -38,6 +38,12 @@ function wrap(a: JSX.Element) {
           h2 form{
             margin-left: 1rem;
           }
+          summary {
+            text-decoration: underline;
+          }
+          summary::marker{
+            display: none;
+          }
         `}}>
 
       </style>
@@ -85,7 +91,6 @@ app.get('/', async (c) => {
   });
 
   return c.html(wrap(<>
-    <a href="/local_data">+ add</a>
     <details>
       <summary>+ add</summary>
       <form method="post" action="/local_data">
