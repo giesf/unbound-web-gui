@@ -28,6 +28,16 @@ function wrap(a: JSX.Element) {
             color: #1e1e20;
             font-family: monospace;
           }
+          form{
+            margin: 0;
+            display: inline-block;
+          }
+          td{
+            padding: 0.5rem;
+          }
+          h2 form{
+            margin-left: 1rem;
+          }
         `}}>
 
       </style>
