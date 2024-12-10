@@ -1,7 +1,33 @@
 import { $ } from 'bun'
 import { Hono } from 'hono'
 import assert from 'assert'
+import { Context } from 'hono/jsx'
+import { BlankEnv, BlankInput } from 'hono/types'
+import { JSX } from 'hono/jsx/jsx-runtime'
 const app = new Hono()
+
+function wrap(a: JSX.Element) {
+  return (<html>
+    <head>
+      <meta charset="utf-8" />
+      <title>unbound web gui</title>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          body{
+            background-color: #1e1e20;
+            color: rgba(255, 255, 245, .86);
+            font-family: monospace;
+          }
+
+        `}}>
+
+      </style>
+    </head>
+    <body>
+      {a}
+    </body>
+  </html>)
+}
 
 app.get('/', async (c) => {
 
@@ -24,7 +50,8 @@ app.get('/', async (c) => {
           {zoneData.map(d => <tr>
             <td>{d[0]}</td>
             <td>{d[1]}</td>
-            <td>{d[2]}</td>
+            <td>{d[3]}</td>
+            <td>{d[4]}</td>
             <td><a href="/"></a></td>
           </tr>)}
         </tbody>
@@ -32,20 +59,20 @@ app.get('/', async (c) => {
     </div>
   });
 
-  return c.html(<>
+  return c.html(wrap(<>
     <a href="/local_data">+ add</a>
     {r}
-  </>)
+  </>))
 })
 app.get('/local_data', async (c) => {
 
 
-  return c.html(<form method="post" action="/local_data">
+  return c.html(wrap(<form method="post" action="/local_data">
     <input name="name" />
     <input name="type" value="A" />
     <input name="host" />
     <button type="submit">Add</button>
-  </form>
+  </form>)
   )
 })
 app.post('/local_data', async (c) => {
@@ -57,10 +84,10 @@ app.post('/local_data', async (c) => {
 
   const r = (await $`unbound-control local_data ${body.name} ${body.type} ${body.host}`).text()
 
-  return c.html(<>
+  return c.html(wrap(<>
     <pre>{r}</pre>
     <a href="/">Back</a>
-  </>
+  </>)
   )
 })
 
