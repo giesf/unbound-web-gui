@@ -17,12 +17,15 @@ app.get('/', async (c) => {
   const r = transparentZones.map(z => {
 
     return `
-      ${z}
-      ${data.filter(d => d[0].endsWith(z.split(" ")[0])).map(d => d.join("\t")).join("\n\t")}
+\t${z}
+\t${data.filter(d => d[0].endsWith(z.split(" ")[0])).map(d => d.join("\t")).join("\n\t")}
     `
   }).join("\n")
 
-  return c.text(r)
+  return c.html(<>
+    <a href="/local_data">+ add</a>
+    <pre>{r}</pre>
+  </>)
 })
 app.get('/local_data', async (c) => {
 
@@ -44,7 +47,11 @@ app.post('/local_data', async (c) => {
 
   const r = (await $`unbound-control local_data ${body.name} ${body.type} ${body.host}`).text()
 
-  return c.text(r)
+  return c.html(<>
+    <pre>{r}</pre>
+    <a href="/">Back</a>
+  </>
+  )
 })
 
 export default app
