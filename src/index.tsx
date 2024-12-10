@@ -86,20 +86,19 @@ app.get('/', async (c) => {
 
   return c.html(wrap(<>
     <a href="/local_data">+ add</a>
+    <details>
+      <summary>+ add</summary>
+      <form method="post" action="/local_data">
+        <input name="name" />
+        <input name="type" value="A" />
+        <input name="host" />
+        <button type="submit">Add</button>
+      </form>
+    </details>
     {r}
   </>))
 })
-app.get('/local_data', async (c) => {
 
-
-  return c.html(wrap(<form method="post" action="/local_data">
-    <input name="name" />
-    <input name="type" value="A" />
-    <input name="host" />
-    <button type="submit">Add</button>
-  </form>)
-  )
-})
 app.post('/local_data', async (c) => {
   const body = await c.req.parseBody()
 
