@@ -18,6 +18,9 @@ function wrap(a: JSX.Element) {
             color: rgba(255, 255, 245, .86);
             font-family: monospace;
           }
+          a {
+              color: rgba(255, 255, 245, .86);
+          }
 
         `}}>
 
@@ -44,7 +47,10 @@ app.get('/', async (c) => {
     const zoneName = z.split(" ")[0]
     const zoneData = data.filter(d => d[0].endsWith(zoneName))
     return <div>
-      <h2>{zoneName}</h2>
+      <h2>{zoneName} <form action="/local_zone_remove">
+        <input type="hidden" name="name" value={zoneName} />
+        <button type="submit">x delete</button>
+      </form></h2>
       <table>
         <tbody>
           {zoneData.map(d => <tr>
@@ -52,7 +58,10 @@ app.get('/', async (c) => {
             <td>{d[1]}</td>
             <td>{d[3]}</td>
             <td>{d[4]}</td>
-            <td><a href="/"></a></td>
+            <td><form action="/local_data_remove">
+              <input type="hidden" name="name" value={d[0]} />
+              <button type="submit">x delete</button>
+            </form></td>
           </tr>)}
         </tbody>
       </table>
@@ -82,13 +91,33 @@ app.post('/local_data', async (c) => {
   assert(typeof body.type == "string")
   assert(typeof body.host == "string")
 
-  const r = (await $`unbound-control local_data ${body.name} ${body.type} ${body.host}`).text()
+  await $`unbound-control local_data ${body.name} ${body.type} ${body.host}`
 
-  return c.html(wrap(<>
-    <pre>{r}</pre>
-    <a href="/">Back</a>
-  </>)
-  )
+  return c.redirect("/")
 })
+
+app.post('/local_data_remove', async (c) => {
+  const body = await c.req.parseBody()
+
+  assert(typeof body.name == "string")
+
+  await $`unbound-control local_data_remove ${body.name}`
+
+  return c.redirect("/")
+})
+
+
+app.post('/local_zone_remove', async (c) => {
+  const body = await c.req.parseBody()
+
+  assert(typeof body.name == "string")
+
+  await $`unbound-control local_zone_remove ${body.name}`
+
+  return c.redirect("/")
+})
+
+
+
 
 export default app
