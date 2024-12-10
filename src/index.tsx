@@ -27,6 +27,7 @@ function wrap(a: JSX.Element) {
             border: 1pt rgba(255, 255, 245, .86) solid;
             color: #1e1e20;
             font-family: monospace;
+            cursor: pointer;
           }
           form{
             margin: 0;
@@ -40,10 +41,9 @@ function wrap(a: JSX.Element) {
           }
           summary {
             text-decoration: underline;
+            cursor: pointer;
           }
-          summary::marker{
-            display: none;
-          }
+        
         `}}>
 
       </style>
