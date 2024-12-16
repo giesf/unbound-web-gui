@@ -4,7 +4,9 @@ import assert from 'assert'
 import { Context } from 'hono/jsx'
 import { BlankEnv, BlankInput } from 'hono/types'
 import { JSX } from 'hono/jsx/jsx-runtime'
-const app = new Hono()
+const app = new Hono({
+
+})
 
 function wrap(a: JSX.Element) {
   return (<html>
@@ -140,4 +142,4 @@ app.post('/local_zone_remove', async (c) => {
 
 
 
-export default app
+export default { hostname: Bun.env.HOST || "127.0.0.1", ...app }
